@@ -13,6 +13,18 @@ embeddings. Built with **Node.js + TypeScript + LangChain**.
 > app is an LLM decision, not hardcoded routing — running with a different Gemini model
 > version can legitimately change which tools get called and how the answer is worded.
 
+##  Project Links
+
+### Repository
+- GitHub Repository: `https://github.com/gurpreet0894/NAGP-Travel-Planning-AI-Assistant`
+
+### Technical Documentation
+- [Download Assignment Specification](./AI_Travel_Planning_Assistant_Technical_Documentation.docx)
+- [Download Assignment Word File](./AI_Travel_Planning_Assistant_Technical_Documentation.docx?raw=true)
+
+### Video Demonstration
+- [TODO] Video Link to be added
+
 ## 1. What it does
 
 - Answers destination questions (attractions, neighbourhoods, transport, culture, food,
