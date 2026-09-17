@@ -19,8 +19,8 @@ embeddings. Built with **Node.js + TypeScript + LangChain**.
 - GitHub Repository: `https://github.com/gurpreet0894/NAGP-Travel-Planning-AI-Assistant`
 
 ### Technical Documentation
-- [Download Assignment Specification](./AI_Travel_Planning_Assistant_Technical_Documentation.docx)
-- [Download Assignment Word File](./AI_Travel_Planning_Assistant_Technical_Documentation.docx?raw=true)
+- please refer AI_Travel_Planning_Assistant_Technical_Documentation.docx file in the root folder for Techinal Documentation
+- [Download Technical Documentation](./AI_Travel_Planning_Assistant_Technical_Documentation.docx)
 
 ### Video Demonstration
 - [TODO] Video Link to be added
