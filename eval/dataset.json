@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "testCases": [
+    {
+      "id": "rag-attractions",
+      "description": "Pure destination-knowledge question - must use RAG only, no MCP tools.",
+      "category": "rag",
+      "turns": ["What are the must-visit attractions in Singapore?"],
+      "expectedToolCalls": [{ "tool": "search_singapore_knowledge_base" }],
+      "expectedSources": ["Singapore Travel Guide — Wikivoyage", "Tourism in Singapore — Wikipedia"],
+      "expectedAnswerCriteria": "Should list well-known Singapore attractions such as Gardens by the Bay, Marina Bay Sands, and Sentosa Island, grounded in the knowledge base with cited sources. Must not mention calling a weather or currency tool - this question has nothing to do with current information."
+    },
+    {
+      "id": "rag-transport",
+      "description": "Transportation guidance question - RAG only.",
+      "category": "rag",
+      "turns": ["How can a tourist travel around Singapore?"],
+      "expectedToolCalls": [{ "tool": "search_singapore_knowledge_base" }],
+      "expectedSources": [
+        "Singapore Travel Guide — Wikivoyage",
+        "Public Transport in Singapore — Wikipedia"
+      ],
+      "expectedAnswerCriteria": "Should mention the MRT, buses, taxis/Grab ride-hailing, and EZ-Link/contactless fare payment as the main ways tourists get around."
+    },
+    {
+      "id": "rag-culture",
+      "description": "Cultural neighbourhoods question - RAG only.",
+      "category": "rag",
+      "turns": ["Which neighbourhoods are suitable for cultural experiences?"],
+      "expectedToolCalls": [{ "tool": "search_singapore_knowledge_base" }],
+      "expectedSources": ["Culture of Singapore — Wikipedia"],
+      "expectedAnswerCriteria": "Should name specific cultural neighbourhoods such as Chinatown, Little India, Kampong Glam / Geylang Serai, or Katong."
+    },
+    {
+      "id": "mcp-weather-forecast",
+      "description": "Weather forecast question - must call the MCP weather tool, not the knowledge base.",
+      "category": "mcp-weather",
+      "turns": [
+        "What is the forecast for the next 3 days?"],
+      "expectedToolCalls": [
+        { "tool": "get_weather_forecast", "args": { "location": "Singapore" } }
+      ],
+      "expectedAnswerCriteria": "Should state a multi-day forecast (temperatures and/or precipitation chance) clearly labelled as coming from the MCP weather tool, Must not use the knowledge base or currency tool."
+    },
+    {
+      "id": "mcp-currency-conversion",
+      "description": "Currency conversion question - must call the MCP currency tool.",
+      "category": "mcp-currency",
+      "turns": ["Convert INR 50,000 to SGD."],
+      "expectedToolCalls": [
+        { "tool": "convert_currency", "args": { "amount": 50000, "from": "INR", "to": "SGD" } }
+      ],
+      "expectedAnswerCriteria": "Should state the converted SGD amount clearly labelled as coming from the MCP currency tool, with no other tools called."
+    },
+    {
+      "id": "combined-itinerary-weather",
+      "description": "The assignment's required combined scenario: RAG itinerary content adjusted using a live MCP weather forecast.",
+      "category": "combined",
+      "turns": [
+        "Create a three-day Singapore itinerary for next week and adjust it according to the weather forecast."
+      ],
+      "expectedToolCalls": [
+        { "tool": "search_singapore_knowledge_base" },
+        { "tool": "get_weather_forecast", "args": { "location": "Singapore" } }
+      ],
+      "expectedSources": ["Compiled Sample Itineraries & Indoor/Outdoor Activity Guide for Singapore"],
+      "expectedAnswerCriteria": "Should produce a day-wise 3-day itinerary using attractions/activities from the knowledge base, incorporate the live weather forecast from the MCP tool, swap in indoor alternatives where rain is likely, and clearly distinguish knowledge-base facts, MCP weather data, and the assistant's own itinerary recommendation."
+    },
+    {
+      "id": "multiturn-budget-family-memory",
+      "description": "Multi-turn memory: a budget and 'travelling with children' stated in turn 1 must be reused in turn 2 without repeating it.",
+      "category": "multi-turn-memory",
+      "turns": [
+        "I am travelling with two young children and my budget is INR 60,000.",
+        "Convert my budget to SGD and suggest a family-friendly 3-day itinerary."
+      ],
+      "expectedToolCalls": [
+        { "tool": "convert_currency", "args": { "amount": 60000, "from": "INR", "to": "SGD" } },
+        { "tool": "search_singapore_knowledge_base" }
+      ],
+      "expectedSources": ["Compiled Sample Itineraries & Indoor/Outdoor Activity Guide for Singapore"],
+      "expectedAnswerCriteria": "Must convert exactly INR 60,000 (not a different amount) and must suggest a family-friendly / child-appropriate itinerary, showing it remembered both the budget and the fact the user is travelling with children from the previous turn without being told again."
+    },
+    {
+      "id": "failure-unsupported-currency",
+      "description": "Tool-failure handling: BTC is not a supported currency in the exchange-rate service - the assistant must not fabricate a rate.",
+      "category": "failure-handling",
+      "turns": ["Convert 100 BTC to SGD."],
+      "expectedToolCalls": [
+        { "tool": "convert_currency", "args": { "amount": 100, "from": "BTC", "to": "SGD" } }
+      ],
+      "expectedAnswerCriteria": "Must clearly state that the conversion could not be completed / that BTC is not supported by the currency tool. Must NOT provide any specific numeric BTC-to-SGD converted amount, since no real rate was returned."
+    },
+    {
+      "id": "missing-knowledge-fictional-place",
+      "description": "Missing-knowledge handling: a made-up place must not be answered with invented facts.",
+      "category": "failure-handling",
+      "turns": [
+        "What is the best rooftop bar in the fictional Starlight District of Singapore, and what are its opening hours?"
+      ],
+      "expectedToolCalls": [{ "tool": "search_singapore_knowledge_base" }],
+      "expectedAnswerCriteria": "Must state that this district/bar is not covered by the knowledge base rather than inventing a bar name, address, or opening hours."
+    }
+  ]
+}

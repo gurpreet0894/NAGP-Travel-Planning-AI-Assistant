@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Singapore AI Travel Planning Assistant</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>🇸🇬 AI Travel Planning Assistant — Singapore</h1>
+      <p>
+        Destination knowledge via RAG (Wikivoyage &amp; Wikipedia) + live weather and currency
+        via MCP tools.
+      </p>
+      <button id="reset-btn" title="Start a new conversation">New conversation</button>
+    </header>
+
+    <main id="messages" class="messages"></main>
+
+    <div class="suggestions" id="suggestions">
+      <span>Try:</span>
+      <button data-q="What are the must-visit attractions in Singapore?">Must-visit attractions</button>
+      <button data-q="What is the weather forecast for Singapore for the next 3 days?">3-day weather forecast</button>
+      <button data-q="Convert INR 60,000 to SGD.">Convert INR 60,000 to SGD</button>
+      <button data-q="Plan a three-day trip to Singapore and adjust the activities based on the weather forecast.">3-day itinerary + weather</button>
+    </div>
+
+    <form id="chat-form" class="chat-form">
+      <input
+        id="chat-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Ask about Singapore attractions, weather, currency, or a full itinerary..."
+      />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
